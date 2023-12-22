@@ -41,7 +41,10 @@ $pointUnitName = $checkoutConfig->getPointUnitName();
         </span>
     <?php else: ?>
     <form class="pt-1" x-show="expanded">
-        <input wire:model.debounce.500ms="spend" value="<?= $escaper->escapeHtml($magewire->spend) ?>" type="number" id="spend-points"><br>
+        <input wire:model.debounce.500ms="spend"
+               value="<?= $escaper->escapeHtml($magewire->spend) ?>"
+               type="number"
+               id="spend-points"><br>
         <span class="text-sm text-gray-500">
             <?= $escaper->escapeHtml(
                 __('You have %1 %2 left to spend.', [$leftToSpend, $pointUnitName])
