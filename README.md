@@ -1,4 +1,5 @@
 # Hyvä checkout compatibility module for Mirasvit Rewards
+[![Coding Standard](https://github.com/Vendic/hyva-checkout-mirasvit-rewards/actions/workflows/coding-standard.yml/badge.svg)](https://github.com/Vendic/hyva-checkout-mirasvit-rewards/actions/workflows/coding-standard.yml)
 
 This module makes the [Mirasvit Rewards](https://mirasvit.com/magento-2-extensions/reward-points-referral-program.html) module compatible with the [Hyva Checkout](https://www.hyva.io/hyva-checkout.html) module using [Magewire](https://github.com/magewirephp/magewire), AlpineJS and TailwindCSS. Everything can be configured as usual in the config of the Mirasvit Rewards module.
 
