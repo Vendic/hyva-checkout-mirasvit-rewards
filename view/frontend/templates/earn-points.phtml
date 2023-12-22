@@ -1,0 +1,29 @@
+<?php
+/**
+ * @copyright   Copyright (c) Vendic B.V https://vendic.nl/
+ */
+
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Vendic\HyvaCheckoutMirasvitRewards\ViewModel\CheckoutConfig;
+use Vendic\HyvaCheckoutMirasvitRewards\ViewModel\GuestChecker;
+use Vendic\HyvaCheckoutMirasvitRewards\ViewModel\Rewards;
+
+/** @var ViewModelRegistry $viewModels */
+/** @var CheckoutConfig $checkoutConfig */
+/** @var GuestChecker $guestChecker */
+/** @var Rewards $rewards */
+$checkoutConfig = $viewModels->require(CheckoutConfig::class);
+$guestChecker = $viewModels->require(GuestChecker::class);
+if ($guestChecker->isCustomerGuest()) {
+    return;
+}
+
+$rewards = $viewModels->require(Rewards::class);
+$earnPoints = $rewards->getEarnPoints();
+$pointUnitName = $checkoutConfig->getPointUnitName();
+?>
+<div class="flex gap-4 justify-between md:gap-0">
+    <span><?= __('You will earn'); ?></span>
+    <span class="font-semibold"><?= __('%1 %2', [$earnPoints, $pointUnitName]) ?></span>
+</div>

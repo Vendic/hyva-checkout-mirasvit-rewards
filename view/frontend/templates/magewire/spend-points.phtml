@@ -1,0 +1,45 @@
+<?php
+/**
+ * @copyright   Copyright (c) Vendic B.V https://vendic.nl/
+ */
+
+/** @var ViewModelRegistry $viewModels */
+/** @var GuestChecker $guestChecker */
+/** @var Rewards $rewards */
+/** @var CheckoutConfig $checkoutConfig */
+/** @var SpendPoints $magewire */
+/** @var HeroiconsOutline $heroIcons */
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Vendic\HyvaCheckoutMirasvitRewards\Magewire\Checkout\SpendPoints;
+use Vendic\HyvaCheckoutMirasvitRewards\ViewModel\CheckoutConfig;
+use Vendic\HyvaCheckoutMirasvitRewards\ViewModel\GuestChecker;
+use Vendic\HyvaCheckoutMirasvitRewards\ViewModel\Rewards;
+
+$guestChecker = $viewModels->require(GuestChecker::class);
+$heroIcons = $viewModels->require(HeroiconsOutline::class);
+$rewards = $viewModels->require(Rewards::class);
+$checkoutConfig = $viewModels->require(CheckoutConfig::class);
+$maxSpendPoints = $rewards->getMaxSpendPoints();
+$isGuest = $guestChecker->isCustomerGuest();
+$leftToSpend = $maxSpendPoints - $magewire->spend;
+$pointUnitName = $checkoutConfig->getPointUnitName();
+?>
+<div class="pt-5" x-data="{ expanded: false }">
+    <span class="font-semibold" @click="expanded = ! expanded">
+        <?= __('Use %1', [$pointUnitName]) . ' ' . $heroIcons->chevronDownHtml('inline-block w-4 h-4') ?>
+    </span>
+    <?php if ($isGuest): ?>
+        <span class="pt-1 block" x-show="expanded" class="text-sm text-gray-500">
+            <?= $checkoutConfig->getCheckoutNotification() ?>
+        </span>
+    <?php else: ?>
+    <form class="pt-1" x-show="expanded">
+        <input wire:model.debounce.500ms="spend" value="<?= $magewire->spend ?>" type="number" id="spend-points"><br>
+        <span class="text-sm text-gray-500">
+            <?= __('You have %1 %2 left to spend.', [$leftToSpend, $pointUnitName]) ?>
+        </span>
+    </form>
+    <?php endif; ?>
+</div>

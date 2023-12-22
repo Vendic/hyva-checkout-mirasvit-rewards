@@ -1,0 +1,29 @@
+<?php
+/**
+ * @copyright   Copyright (c) Vendic B.V https://vendic.nl/
+ */
+
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Vendic\HyvaCheckoutMirasvitRewards\Magewire\Checkout\PriceSummary\SpentPoints;
+use Vendic\HyvaCheckoutMirasvitRewards\ViewModel\CheckoutConfig;
+use Vendic\HyvaCheckoutMirasvitRewards\ViewModel\GuestChecker;
+
+/** @var ViewModelRegistry $viewModels */
+/** @var CheckoutConfig $checkoutConfig */
+/** @var GuestChecker $guestChecker */
+/** @var SpentPoints $magewire */
+$checkoutConfig = $viewModels->require(CheckoutConfig::class);
+$guestChecker = $viewModels->require(GuestChecker::class);
+$isGuest = $guestChecker->isCustomerGuest();
+$spentPoints = $magewire->spent;
+$pointUnitName = $checkoutConfig->getPointUnitName();
+?>
+<?php if ($isGuest): ?>
+<div></div>
+<?php else: ?>
+<div class="flex gap-4 justify-between md:gap-0 mt-1">
+    <span><?= __('You have spent'); ?></span>
+    <span class="font-semibold"><?= __('%1 %2', [$spentPoints, $pointUnitName]); ?></span>
+</div>
+<?php endif; ?>

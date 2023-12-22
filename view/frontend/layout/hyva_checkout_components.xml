@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="checkout.price-summary.section">
+            <container name="price-summary.rewards" htmlTag="div" after="price-summary.total-segments">
+                <block name="price-summary.rewards.earn-points"
+                       as="earn-points"
+                       template="Vendic_HyvaCheckoutMirasvitRewards::earn-points.phtml"/>
+                <block name="price-summary.rewards.spent-points"
+                       as="spent-points"
+                       after="price-summary.rewards.earn-points">
+                    <arguments>
+                        <argument name="magewire" xsi:type="object">
+                            Vendic\HyvaCheckoutMirasvitRewards\Magewire\Checkout\PriceSummary\SpentPoints
+                        </argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+        <referenceContainer name="checkout.payment.methods.after">
+            <block name="checkout.spend-points"
+                   as="spend-points">
+                <arguments>
+                    <argument name="magewire" xsi:type="object">
+                        Vendic\HyvaCheckoutMirasvitRewards\Magewire\Checkout\SpendPoints
+                    </argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

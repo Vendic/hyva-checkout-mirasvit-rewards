@@ -1,0 +1,19 @@
+{
+  "name": "vendic/module-hyva-checkout-mirasvit-rewards",
+  "description": "Make Mirasvit Rewards module compatible with Hyvä checkout.",
+  "type": "magento2-module",
+  "require": {
+    "magento/framework": "*"
+  },
+  "license": [
+    "Proprietary"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Vendic\\HyvaCheckoutMirasvitRewards\\": ""
+    }
+  }
+}
