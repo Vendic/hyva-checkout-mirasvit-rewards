@@ -1,12 +1,14 @@
 {
-  "name": "vendic/module-hyva-checkout-mirasvit-rewards",
-  "description": "Make Mirasvit Rewards module compatible with Hyvä checkout.",
+  "name": "vendic/hyva-checkout-mirasvit-rewards",
+  "description": "Hyvä checkout compatibility module for Mirasvit Rewards. See: https://mirasvit.com/magento-2-extensions/reward-points-referral-program.html",
   "type": "magento2-module",
   "require": {
-    "magento/framework": "*"
+      "hyva-themes/magento2-react-checkout": "^1.0",
+      "mirasvit/module-rewards": "^3.1",
+      "magento/framework": "*"
   },
   "license": [
-    "Proprietary"
+    "MIT"
   ],
   "autoload": {
     "files": [
