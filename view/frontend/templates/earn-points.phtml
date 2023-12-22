@@ -3,12 +3,13 @@
  * @copyright   Copyright (c) Vendic B.V https://vendic.nl/
  */
 
-
+use Magento\Framework\Escaper;
 use Hyva\Theme\Model\ViewModelRegistry;
 use Vendic\HyvaCheckoutMirasvitRewards\ViewModel\CheckoutConfig;
 use Vendic\HyvaCheckoutMirasvitRewards\ViewModel\GuestChecker;
 use Vendic\HyvaCheckoutMirasvitRewards\ViewModel\Rewards;
 
+/** @var Escaper $escaper */
 /** @var ViewModelRegistry $viewModels */
 /** @var CheckoutConfig $checkoutConfig */
 /** @var GuestChecker $guestChecker */
@@ -24,6 +25,8 @@ $earnPoints = $rewards->getEarnPoints();
 $pointUnitName = $checkoutConfig->getPointUnitName();
 ?>
 <div class="flex gap-4 justify-between md:gap-0">
-    <span><?= __('You will earn'); ?></span>
-    <span class="font-semibold"><?= __('%1 %2', [$earnPoints, $pointUnitName]) ?></span>
+    <span><?= $escaper->escapeHtml(__('You will earn')) ?></span>
+    <span class="font-semibold">
+        <?= $escaper->escapeHtml(__('%1 %2', [$earnPoints, $pointUnitName])) ?>
+    </span>
 </div>

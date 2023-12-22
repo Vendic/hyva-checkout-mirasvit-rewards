@@ -3,6 +3,7 @@
  * @copyright   Copyright (c) Vendic B.V https://vendic.nl/
  */
 
+/** @var Escaper $escaper */
 /** @var ViewModelRegistry $viewModels */
 /** @var GuestChecker $guestChecker */
 /** @var Rewards $rewards */
@@ -12,6 +13,7 @@
 
 use Hyva\Theme\Model\ViewModelRegistry;
 use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Magento\Framework\Escaper;
 use Vendic\HyvaCheckoutMirasvitRewards\Magewire\Checkout\SpendPoints;
 use Vendic\HyvaCheckoutMirasvitRewards\ViewModel\CheckoutConfig;
 use Vendic\HyvaCheckoutMirasvitRewards\ViewModel\GuestChecker;
@@ -28,17 +30,21 @@ $pointUnitName = $checkoutConfig->getPointUnitName();
 ?>
 <div class="pt-5" x-data="{ expanded: false }">
     <span class="font-semibold" @click="expanded = ! expanded">
-        <?= __('Use %1', [$pointUnitName]) . ' ' . $heroIcons->chevronDownHtml('inline-block w-4 h-4') ?>
+        <?= $escaper->escapeHtml(
+            __('Use %1', [$pointUnitName]) . ' ' . $heroIcons->chevronDownHtml('inline-block w-4 h-4')
+        ) ?>
     </span>
     <?php if ($isGuest): ?>
         <span class="pt-1 block" x-show="expanded" class="text-sm text-gray-500">
-            <?= $checkoutConfig->getCheckoutNotification() ?>
+            <?= $escaper->escapeHtml($checkoutConfig->getCheckoutNotification()) ?>
         </span>
     <?php else: ?>
     <form class="pt-1" x-show="expanded">
         <input wire:model.debounce.500ms="spend" value="<?= $magewire->spend ?>" type="number" id="spend-points"><br>
         <span class="text-sm text-gray-500">
-            <?= __('You have %1 %2 left to spend.', [$leftToSpend, $pointUnitName]) ?>
+            <?= $escaper->escapeHtml(
+                __('You have %1 %2 left to spend.', [$leftToSpend, $pointUnitName])
+            ) ?>
         </span>
     </form>
     <?php endif; ?>

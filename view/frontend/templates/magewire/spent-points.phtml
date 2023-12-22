@@ -4,11 +4,13 @@
  */
 
 
+use Magento\Framework\Escaper;
 use Hyva\Theme\Model\ViewModelRegistry;
 use Vendic\HyvaCheckoutMirasvitRewards\Magewire\Checkout\PriceSummary\SpentPoints;
 use Vendic\HyvaCheckoutMirasvitRewards\ViewModel\CheckoutConfig;
 use Vendic\HyvaCheckoutMirasvitRewards\ViewModel\GuestChecker;
 
+/** @var Escaper $escaper */
 /** @var ViewModelRegistry $viewModels */
 /** @var CheckoutConfig $checkoutConfig */
 /** @var GuestChecker $guestChecker */
@@ -23,7 +25,11 @@ $pointUnitName = $checkoutConfig->getPointUnitName();
 <div></div>
 <?php else: ?>
 <div class="flex gap-4 justify-between md:gap-0 mt-1">
-    <span><?= __('You have spent'); ?></span>
-    <span class="font-semibold"><?= __('%1 %2', [$spentPoints, $pointUnitName]); ?></span>
+    <span><?= $escaper->escapeHtml(__('You have spent')) ?></span>
+    <span class="font-semibold">
+        <?= $escaper->escapeHtml(
+            __('%1 %2', [$spentPoints, $pointUnitName])
+        ) ?>
+    </span>
 </div>
 <?php endif; ?>
