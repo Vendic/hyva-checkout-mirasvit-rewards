@@ -30,9 +30,10 @@ $pointUnitName = $checkoutConfig->getPointUnitName();
 ?>
 <div class="pt-5" x-data="{ expanded: false }">
     <span class="font-semibold" @click="expanded = ! expanded">
-        <?= $escaper->escapeHtml(
-            __('Use %1', [$pointUnitName]) . ' ' . $heroIcons->chevronDownHtml('inline-block w-4 h-4')
-        ) ?>
+        <span class="mr-0.5">
+            <?= $escaper->escapeHtml(__('Use %1', [$pointUnitName])) ?>
+        </span>
+        <?= /* @noEscape  */ $heroIcons->chevronDownHtml('inline-block w-4 h-4') ?>
     </span>
     <?php if ($isGuest): ?>
         <span class="pt-1 block" x-show="expanded" class="text-sm text-gray-500">
