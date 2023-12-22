@@ -14,6 +14,12 @@ use Mirasvit\Rewards\Model\ResourceModel\Purchase as PurchaseResource;
 class SpendPoints extends Component
 {
     private const SPEND_POINTS = 'spend_points';
+    private const SPEND_POINTS_OPEN = 'spend_points_open';
+
+    /**
+     * @var bool
+     */
+    public $open;
 
     /**
      * @var int
@@ -31,6 +37,13 @@ class SpendPoints extends Component
     public function mount(): void
     {
         $this->spend = $this->checkoutSession->getData(self::SPEND_POINTS) ?? 0;
+        $this->open = $this->checkoutSession->getData(SpendPoints::SPEND_POINTS_OPEN ?? false);
+    }
+
+    public function toggle() : void
+    {
+        $this->open = !$this->open;
+        $this->checkoutSession->setData(self::SPEND_POINTS_OPEN, $this->open);
     }
 
     public function updatingSpend(string $value): int
