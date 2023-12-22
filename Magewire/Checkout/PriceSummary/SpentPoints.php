@@ -12,6 +12,10 @@ class SpentPoints extends Component
 {
     private const SPEND_POINTS = 'spend_points';
 
+    protected $listeners = [
+        'spend_points_updated' => 'refresh'
+    ];
+
     /**
      * @var int
      */

@@ -44,8 +44,15 @@ class SpendPoints extends Component
             : $this->getSpendPointsByCartId($cartId);
 
         $this->checkoutSession->setData(self::SPEND_POINTS, $value);
-        $this->emitToRefresh('price-summary.total-segments');
-        $this->emitToRefresh('price-summary.rewards.spent-points');
+
+        /**
+         * @see https://hyva-themes.slack.com/archives/C04R7U5SZDL/p1703258520674129
+         * $this->emitToRefresh('price-summary.total-segments');
+         * $this->emitToRefresh('price-summary.rewards.spent-points');
+         */
+
+        $this->emit('spend_points_updated');
+        $this->emit('payment_method_selected');
 
         return $value;
     }
