@@ -47,6 +47,9 @@ class SpendPoints extends Component
 
         /**
          * @see https://hyva-themes.slack.com/archives/C04R7U5SZDL/p1703258520674129
+         * @see https://gitlab.hyva.io/hyva-checkout/checkout/-/merge_requests/215
+         * @see https://gitlab.hyva.io/hyva-checkout/checkout/-/merge_requests/225
+         *
          * $this->emitToRefresh('price-summary.total-segments');
          * $this->emitToRefresh('price-summary.rewards.spent-points');
          */
