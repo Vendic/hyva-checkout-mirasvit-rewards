@@ -2,6 +2,15 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
+        <referenceBlock name="price-summary.total-segments">
+            <block name="price-summary.total-segment.rewards_calculations"
+                   as="rewards_calculations"
+                   template="Vendic_HyvaCheckoutMirasvitRewards::total-segments/rewards-discount.phtml"/>
+        </referenceBlock>
+        <referenceContainer name="before.body.end">
+            <block name="mirasvit.rewards.spend-points.js"
+                   template="Vendic_HyvaCheckoutMirasvitRewards::js/spend-points.phtml"/>
+        </referenceContainer>
         <referenceContainer name="checkout.price-summary.section">
             <container name="price-summary.rewards" htmlTag="div" after="price-summary.total-segments">
                 <block name="price-summary.rewards.earn-points"

@@ -1,0 +1,32 @@
+<?php
+/**
+ * @copyright   Copyright (c) Vendic B.V https://vendic.nl/
+ */
+
+declare(strict_types=1);
+
+use Hyva\Checkout\ViewModel\Checkout\Formatter as FormatterViewModel;
+use Hyva\Theme\Model\ViewModelRegistry;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+$formatterViewModel = $viewModels->require(FormatterViewModel::class);
+$segment = $block->getSegment();
+$value = (float) ($segment['value'] ?? 0);
+
+if ($value === 0.0) {
+    return '';
+}
+?>
+<div class="flex gap-4 justify-between">
+    <span class="label min-w-0 break-words wrap-break-word">
+        <?= $escaper->escapeHtml(__('Rewards Discount')) ?>
+    </span>
+    <span class="value">
+        <?= /* @noEscape */ $formatterViewModel->currency($value) ?>
+    </span>
+</div>

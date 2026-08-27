@@ -21,7 +21,7 @@ None at this moment. Feel free to create a pull request if you need specific set
 ## Compatibility
 
 - [Hyvä Themes](https://www.hyva.io/hyva-themes-license.html) ^1.0
-- [Hyva Checkout](https://www.hyva.io/hyva-checkout.html) ^1.1
+- [Hyva Checkout](https://www.hyva.io/hyva-checkout.html) ^1.3
 - [Mirasvit Rewards](https://mirasvit.com/magento-2-extensions/rewards-points-suite.html) ^3.1
 - Magento 2 or [Mage-OS](https://mage-os.org/) ^2.4.4
 
