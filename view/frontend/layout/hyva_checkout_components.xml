@@ -15,7 +15,13 @@
             <container name="price-summary.rewards" htmlTag="div" after="price-summary.total-segments">
                 <block name="price-summary.rewards.earn-points"
                        as="earn-points"
-                       template="Vendic_HyvaCheckoutMirasvitRewards::earn-points.phtml"/>
+                       template="Vendic_HyvaCheckoutMirasvitRewards::earn-points.phtml">
+                    <arguments>
+                        <argument name="magewire" xsi:type="object">
+                            Vendic\HyvaCheckoutMirasvitRewards\Magewire\Checkout\PriceSummary\EarnPoints
+                        </argument>
+                    </arguments>
+                </block>
                 <block name="price-summary.rewards.spent-points"
                        as="spent-points"
                        after="price-summary.rewards.earn-points">

@@ -23,9 +23,9 @@ $guestChecker = $viewModels->require(GuestChecker::class);
 $heroIcons = $viewModels->require(HeroiconsOutline::class);
 $rewards = $viewModels->require(Rewards::class);
 $checkoutConfig = $viewModels->require(CheckoutConfig::class);
-$maxSpendPoints = $rewards->getMaxSpendPoints();
-$balancePoints = $rewards->getBalancePoints();
 $isGuest = $guestChecker->isCustomerGuest();
+$maxSpendPoints = $isGuest ? 0 : $rewards->getMaxSpendPoints();
+$balancePoints = $isGuest ? 0 : $rewards->getBalancePoints();
 $pointUnitName = $checkoutConfig->getPointUnitName();
 ?>
 <div class="pt-5" x-data="mirasvitRewardsSpendPoints">
@@ -44,7 +44,7 @@ $pointUnitName = $checkoutConfig->getPointUnitName();
             <?= $escaper->escapeHtml($checkoutConfig->getCheckoutNotification()) ?>
         </span>
     <?php else: ?>
-    <form id="spend-points-details" class="pt-1" x-show="expanded" x-cloak>
+    <div id="spend-points-details" class="pt-1" x-show="expanded" x-cloak>
         <p class="text-sm text-gray-500 mb-2">
             <?= $escaper->escapeHtml(
                 __('You have %1 %2 available.', [$balancePoints, $pointUnitName])
@@ -65,6 +65,6 @@ $pointUnitName = $checkoutConfig->getPointUnitName();
                 __('Use maximum %1 %2.', [$maxSpendPoints, $pointUnitName])
             ) ?>
         </span>
-    </form>
+    </div>
     <?php endif; ?>
 </div>
