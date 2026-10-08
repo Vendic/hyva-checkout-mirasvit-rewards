@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @copyright   Copyright (c) Vendic B.V https://vendic.nl/
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <sales>
+            <totals_sort>
+                <rewards_calculations>25</rewards_calculations>
+            </totals_sort>
+        </sales>
+    </default>
+</config>

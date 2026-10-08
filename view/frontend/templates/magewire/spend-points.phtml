@@ -23,33 +23,48 @@ $guestChecker = $viewModels->require(GuestChecker::class);
 $heroIcons = $viewModels->require(HeroiconsOutline::class);
 $rewards = $viewModels->require(Rewards::class);
 $checkoutConfig = $viewModels->require(CheckoutConfig::class);
-$maxSpendPoints = $rewards->getMaxSpendPoints();
 $isGuest = $guestChecker->isCustomerGuest();
-$leftToSpend = $maxSpendPoints - $magewire->spend;
+$maxSpendPoints = $isGuest ? 0 : $rewards->getMaxSpendPoints();
+$balancePoints = $isGuest ? 0 : $rewards->getBalancePoints();
 $pointUnitName = $checkoutConfig->getPointUnitName();
 ?>
-<div class="pt-5" x-data="{ expanded: false }">
-    <span class="font-semibold" @click="expanded = ! expanded">
+<div class="pt-5" x-data="mirasvitRewardsSpendPoints">
+    <button type="button"
+            class="font-semibold flex items-center"
+            aria-controls="spend-points-details"
+            x-on:click="toggleExpanded"
+            x-bind:aria-expanded="expanded">
         <span class="mr-0.5">
             <?= $escaper->escapeHtml(__('Use %1', [$pointUnitName])) ?>
         </span>
         <?= /* @noEscape  */ $heroIcons->chevronDownHtml('inline-block w-4 h-4') ?>
-    </span>
+    </button>
     <?php if ($isGuest): ?>
-        <span class="pt-1 block" x-show="expanded" class="text-sm text-gray-500">
+        <span id="spend-points-details" class="pt-1 block text-sm text-gray-500" x-show="expanded" x-cloak>
             <?= $escaper->escapeHtml($checkoutConfig->getCheckoutNotification()) ?>
         </span>
     <?php else: ?>
-    <form class="pt-1" x-show="expanded">
+    <div id="spend-points-details" class="pt-1" x-show="expanded" x-cloak>
+        <p class="text-sm text-gray-500 mb-2">
+            <?= $escaper->escapeHtml(
+                __('You have %1 %2 available.', [$balancePoints, $pointUnitName])
+            ) ?>
+        </p>
+        <label for="spend-points" class="sr-only">
+            <?= $escaper->escapeHtml(__('Enter amount of points to spend')) ?>
+        </label>
         <input wire:model.debounce.500ms="spend"
                value="<?= $escaper->escapeHtml($magewire->spend) ?>"
                type="number"
-               id="spend-points"><br>
-        <span class="text-sm text-gray-500">
+               min="0"
+               max="<?= $escaper->escapeHtmlAttr($maxSpendPoints) ?>"
+               id="spend-points"
+               class="form-input w-full"><br>
+        <span class="block mt-1 text-sm text-gray-500">
             <?= $escaper->escapeHtml(
-                __('You have %1 %2 left to spend.', [$leftToSpend, $pointUnitName])
+                __('Use maximum %1 %2.', [$maxSpendPoints, $pointUnitName])
             ) ?>
         </span>
-    </form>
+    </div>
     <?php endif; ?>
 </div>
