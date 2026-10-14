@@ -5,13 +5,31 @@
 
 namespace Vendic\HyvaCheckoutMirasvitRewards\ViewModel;
 
+use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
+use Mirasvit\Rewards\Helper\Balance;
 use Mirasvit\Rewards\Helper\Purchase as PurchaseHelper;
 
 class Rewards implements ArgumentInterface
 {
-    public function __construct(private PurchaseHelper $purchaseHelper)
+    public function __construct(
+        private PurchaseHelper $purchaseHelper,
+        private Balance $balance,
+        private CheckoutSession $checkoutSession
+    ) {
+    }
+
+    /**
+     * Get the customer's total available reward points balance.
+     */
+    public function getBalancePoints(): int
     {
+        $customerId = (int) $this->checkoutSession->getQuote()->getCustomerId();
+        if ($customerId === 0) {
+            return 0;
+        }
+
+        return (int) $this->balance->getBalancePoints($customerId);
     }
 
     /**

@@ -13,8 +13,6 @@ use Mirasvit\Rewards\Model\ResourceModel\Purchase as PurchaseResource;
 
 class SpendPoints extends Component
 {
-    private const SPEND_POINTS = 'spend_points';
-
     /**
      * @var int
      */
@@ -30,7 +28,7 @@ class SpendPoints extends Component
 
     public function mount(): void
     {
-        $this->spend = $this->checkoutSession->getData(self::SPEND_POINTS) ?? 0;
+        $this->spend = $this->getSpendPointsByCartId((int)$this->checkoutSession->getQuoteId());
     }
 
     public function updatingSpend(string $value): int
@@ -43,19 +41,11 @@ class SpendPoints extends Component
             ? 0
             : $this->getSpendPointsByCartId($cartId);
 
-        $this->checkoutSession->setData(self::SPEND_POINTS, $value);
-
-        /**
-         * @see https://hyva-themes.slack.com/archives/C04R7U5SZDL/p1703258520674129
-         * @see https://gitlab.hyva.io/hyva-checkout/checkout/-/merge_requests/215
-         * @see https://gitlab.hyva.io/hyva-checkout/checkout/-/merge_requests/225
-         *
-         * $this->emitToRefresh('price-summary.total-segments');
-         * $this->emitToRefresh('price-summary.rewards.spent-points');
-         */
-
         $this->emit('spend_points_updated');
-        $this->emit('payment_method_selected');
+        $this->emitToRefresh('price-summary.total-segments');
+        $this->emitToRefresh('price-summary.rewards.earn-points');
+        $this->emitToRefresh('checkout.payment.methods');
+        $this->emitToRefresh('checkout.shipping.methods');
 
         return $value;
     }

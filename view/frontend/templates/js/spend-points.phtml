@@ -1,0 +1,22 @@
+<?php
+/**
+ * @copyright   Copyright (c) Vendic B.V https://vendic.nl/
+ */
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\HyvaCsp;
+
+/** @var ViewModelRegistry $viewModels */
+
+$hyvaCsp = $viewModels->require(HyvaCsp::class);
+?>
+<script>
+    function mirasvitRewardsSpendPoints() {
+        return hyva.createBooleanObject('expanded', false);
+    }
+
+    window.addEventListener('alpine:init', () => {
+        Alpine.data('mirasvitRewardsSpendPoints', mirasvitRewardsSpendPoints)
+    }, { once: true })
+</script>
+<?php $hyvaCsp->registerInlineScript() ?>

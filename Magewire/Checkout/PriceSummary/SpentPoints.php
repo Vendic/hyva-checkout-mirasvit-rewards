@@ -7,11 +7,11 @@ namespace Vendic\HyvaCheckoutMirasvitRewards\Magewire\Checkout\PriceSummary;
 
 use Magento\Checkout\Model\Session;
 use Magewirephp\Magewire\Component;
+use Mirasvit\Rewards\Model\PurchaseFactory;
+use Mirasvit\Rewards\Model\ResourceModel\Purchase as PurchaseResource;
 
 class SpentPoints extends Component
 {
-    private const SPEND_POINTS = 'spend_points';
-
     protected $listeners = [
         'spend_points_updated' => 'refresh'
     ];
@@ -23,16 +23,25 @@ class SpentPoints extends Component
 
     public function __construct(
         private Session $checkoutSession,
+        private PurchaseFactory $purchaseFactory,
+        private PurchaseResource $purchaseResource
     ) {
     }
 
     public function mount(): void
     {
-        $this->spent = $this->checkoutSession->getData(self::SPEND_POINTS) ?? 0;
+        $this->spent = $this->getSpentPoints();
     }
 
     public function refresh(): void
     {
-        $this->spent = $this->checkoutSession->getData(self::SPEND_POINTS) ?? 0;
+        $this->spent = $this->getSpentPoints();
+    }
+
+    private function getSpentPoints(): int
+    {
+        $purchase = $this->purchaseFactory->create();
+        $this->purchaseResource->load($purchase, (int)$this->checkoutSession->getQuoteId(), 'quote_id');
+        return (int)$purchase->getSpendPoints();
     }
 }
